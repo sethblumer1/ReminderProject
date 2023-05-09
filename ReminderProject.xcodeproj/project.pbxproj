@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49A375F52A0AC39A004A4116 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A375F42A0AC39A004A4116 /* SettingsViewController.swift */; };
+		49A375F82A0AC4E9004A4116 /* RemindersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A375F72A0AC4E9004A4116 /* RemindersTableViewCell.swift */; };
+		49AD3A752A0AC11700B9D78D /* AddReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AD3A742A0AC11700B9D78D /* AddReminderViewController.swift */; };
 		DE7AB6172A01910400E6545D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7AB6162A01910400E6545D /* AppDelegate.swift */; };
 		DE7AB6192A01910400E6545D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7AB6182A01910400E6545D /* SceneDelegate.swift */; };
 		DE7AB61B2A01910400E6545D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7AB61A2A01910400E6545D /* ViewController.swift */; };
@@ -37,6 +40,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		49A375F42A0AC39A004A4116 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		49A375F72A0AC4E9004A4116 /* RemindersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersTableViewCell.swift; sourceTree = "<group>"; };
+		49AD3A742A0AC11700B9D78D /* AddReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReminderViewController.swift; sourceTree = "<group>"; };
 		DE7AB6132A01910400E6545D /* ReminderProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReminderProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE7AB6162A01910400E6545D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DE7AB6182A01910400E6545D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +84,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49A375F62A0AC4BD004A4116 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				49A375F72A0AC4E9004A4116 /* RemindersTableViewCell.swift */,
+			);
+			path = TableViewCells;
+			sourceTree = "<group>";
+		};
+		49AD3A732A0AC0D600B9D78D /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				DE7AB61A2A01910400E6545D /* ViewController.swift */,
+				49A375F42A0AC39A004A4116 /* SettingsViewController.swift */,
+				49AD3A742A0AC11700B9D78D /* AddReminderViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		DE7AB60A2A01910400E6545D = {
 			isa = PBXGroup;
 			children = (
@@ -103,7 +127,8 @@
 			children = (
 				DE7AB6162A01910400E6545D /* AppDelegate.swift */,
 				DE7AB6182A01910400E6545D /* SceneDelegate.swift */,
-				DE7AB61A2A01910400E6545D /* ViewController.swift */,
+				49AD3A732A0AC0D600B9D78D /* ViewControllers */,
+				49A375F62A0AC4BD004A4116 /* TableViewCells */,
 				DE7AB61C2A01910400E6545D /* Main.storyboard */,
 				DE7AB6222A01910700E6545D /* Assets.xcassets */,
 				DE7AB6242A01910700E6545D /* LaunchScreen.storyboard */,
@@ -261,10 +286,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49A375F82A0AC4E9004A4116 /* RemindersTableViewCell.swift in Sources */,
+				49AD3A752A0AC11700B9D78D /* AddReminderViewController.swift in Sources */,
 				DE7AB61B2A01910400E6545D /* ViewController.swift in Sources */,
 				DE7AB6212A01910400E6545D /* ReminderProject.xcdatamodeld in Sources */,
 				DE7AB6172A01910400E6545D /* AppDelegate.swift in Sources */,
 				DE7AB6192A01910400E6545D /* SceneDelegate.swift in Sources */,
+				49A375F52A0AC39A004A4116 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
