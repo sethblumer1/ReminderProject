@@ -22,24 +22,24 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="reminderCell" rowHeight="60" id="hoL-aM-ukr" customClass="RemindersTableViewCell" customModule="ReminderProject" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="393" height="60"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="reminderCell" rowHeight="70" id="hoL-aM-ukr" customClass="RemindersTableViewCell" customModule="ReminderProject" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hoL-aM-ukr" id="DmO-bk-dGB">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="70"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iIx-HU-LVo">
-                                                    <rect key="frame" x="10" y="0.0" width="373" height="60"/>
+                                                    <rect key="frame" x="10" y="3" width="373" height="64"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reminder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TTz-U4-Dxq">
-                                                            <rect key="frame" x="15" y="19.666666666666668" width="73" height="21.000000000000004"/>
+                                                            <rect key="frame" x="15" y="21.666666666666671" width="73" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1/1/23 4:45 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rh5-qB-dF3">
-                                                            <rect key="frame" x="244.33333333333334" y="19.666666666666668" width="113.66666666666666" height="21.000000000000004"/>
+                                                            <rect key="frame" x="244.33333333333334" y="21.666666666666671" width="113.66666666666666" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -47,18 +47,19 @@
                                                     </subviews>
                                                     <color key="backgroundColor" systemColor="systemCyanColor"/>
                                                     <constraints>
-                                                        <constraint firstItem="TTz-U4-Dxq" firstAttribute="centerY" secondItem="iIx-HU-LVo" secondAttribute="centerY" id="7OR-Yd-03d"/>
-                                                        <constraint firstItem="TTz-U4-Dxq" firstAttribute="leading" secondItem="iIx-HU-LVo" secondAttribute="leading" constant="15" id="DjU-L6-j5b"/>
-                                                        <constraint firstItem="Rh5-qB-dF3" firstAttribute="centerY" secondItem="iIx-HU-LVo" secondAttribute="centerY" id="IsO-wJ-g1N"/>
-                                                        <constraint firstAttribute="trailing" secondItem="Rh5-qB-dF3" secondAttribute="trailing" constant="15" id="Ne9-Rj-rll"/>
+                                                        <constraint firstItem="Rh5-qB-dF3" firstAttribute="centerY" secondItem="iIx-HU-LVo" secondAttribute="centerY" id="1Uk-xC-bkv"/>
+                                                        <constraint firstItem="TTz-U4-Dxq" firstAttribute="centerY" secondItem="iIx-HU-LVo" secondAttribute="centerY" id="Gle-OL-7Zk"/>
+                                                        <constraint firstItem="TTz-U4-Dxq" firstAttribute="leading" secondItem="iIx-HU-LVo" secondAttribute="leading" constant="15" id="VHS-Bp-xoZ"/>
+                                                        <constraint firstAttribute="height" constant="64" id="gVc-RY-6fA"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Rh5-qB-dF3" secondAttribute="trailing" constant="15" id="qjO-Bp-V51"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="iIx-HU-LVo" secondAttribute="trailing" constant="10" id="aP4-lB-Kqu"/>
-                                                <constraint firstItem="iIx-HU-LVo" firstAttribute="top" secondItem="DmO-bk-dGB" secondAttribute="top" id="gWt-ni-0Bi"/>
-                                                <constraint firstAttribute="bottom" secondItem="iIx-HU-LVo" secondAttribute="bottom" id="mho-gc-dTm"/>
-                                                <constraint firstItem="iIx-HU-LVo" firstAttribute="leading" secondItem="DmO-bk-dGB" secondAttribute="leading" constant="10" id="rnK-hj-82d"/>
+                                                <constraint firstItem="iIx-HU-LVo" firstAttribute="top" secondItem="DmO-bk-dGB" secondAttribute="top" constant="3" id="HTl-2i-bgm"/>
+                                                <constraint firstAttribute="trailing" secondItem="iIx-HU-LVo" secondAttribute="trailing" constant="10" id="cMU-fK-eAG"/>
+                                                <constraint firstItem="iIx-HU-LVo" firstAttribute="leading" secondItem="DmO-bk-dGB" secondAttribute="leading" constant="10" id="t0Y-Kb-B6O"/>
+                                                <constraint firstAttribute="bottom" secondItem="iIx-HU-LVo" secondAttribute="bottom" constant="3" id="uaG-DT-Fm7"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -75,8 +76,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Reminder" id="6Sc-ja-EQP">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="VsX-Cx-ZtY">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="1oN-6R-feu">
-                                <rect key="frame" x="16" y="5" width="87" height="34.333333333333336"/>
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="1oN-6R-feu">
+                                <rect key="frame" x="16" y="5" width="51" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="systemCyanColor"/>
                                 <state key="normal" title="Button"/>
@@ -87,7 +88,7 @@
                             </button>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="u4g-Tv-TA6">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="AHl-gn-vkY">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="AHl-gn-vkY">
                                 <rect key="frame" x="290" y="5" width="87" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="systemCyanColor"/>
@@ -123,16 +124,16 @@
             </objects>
             <point key="canvasLocation" x="349" y="841"/>
         </scene>
-        <!--Add Reminder View Controller-->
+        <!--Add Edit Reminder View Controller-->
         <scene sceneID="8Ad-lg-B8s">
             <objects>
-                <viewController id="7HD-oh-kcT" customClass="AddReminderViewController" customModule="ReminderProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="7HD-oh-kcT" customClass="AddEditReminderViewController" customModule="ReminderProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ong-Ls-WII">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="add something" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vqh-HN-032">
-                                <rect key="frame" x="139.66666666666666" y="410.66666666666669" width="114" height="21"/>
+                                <rect key="frame" x="139.66666666666666" y="560.66666666666663" width="114" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -142,14 +143,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Vqh-HN-032" firstAttribute="centerX" secondItem="Ong-Ls-WII" secondAttribute="centerX" id="0iV-uE-ymc"/>
-                            <constraint firstItem="Vqh-HN-032" firstAttribute="centerY" secondItem="Ong-Ls-WII" secondAttribute="centerY" id="aFC-cS-BIG"/>
+                            <constraint firstItem="Vqh-HN-032" firstAttribute="centerY" secondItem="Ong-Ls-WII" secondAttribute="centerY" constant="150" id="aFC-cS-BIG"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="AmZ-4W-aDg"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="be4-1I-cBq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1318" y="-2"/>
+            <point key="canvasLocation" x="1316.793893129771" y="-2.1126760563380285"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Zvb-BB-3HA">

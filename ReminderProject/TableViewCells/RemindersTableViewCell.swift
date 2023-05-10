@@ -15,7 +15,7 @@ class RemindersTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        bgView.layer.cornerRadius = 15
+        bgView.setCellShadow()
         // Initialization code
     }
 
