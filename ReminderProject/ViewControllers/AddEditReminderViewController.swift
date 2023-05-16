@@ -57,7 +57,12 @@ class AddEditReminderViewController: UIViewController {
         reminderName.frame = CGRect(x: 20, y:  datePicker.top - 70, width: view.width - 40, height: 45)
         notes.frame = CGRect(x: 20, y: datePicker.bottom + 25, width: view.width - 40, height: 120)
     }
-
+    override func viewWillDisappear(_ animated: Bool) {
+        print("see you")
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        print("later")
+    }
     func addSubviews() {
         view.addSubview(datePicker)
         view.addSubview(reminderName)

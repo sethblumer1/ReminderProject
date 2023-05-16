@@ -136,28 +136,8 @@
                     <view key="view" contentMode="scaleToFill" id="Ong-Ls-WII">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="add something" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vqh-HN-032">
-                                <rect key="frame" x="139.66666666666666" y="560.66666666666663" width="114" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <datePicker contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="ZqS-eQ-KHw">
-                                <rect key="frame" x="0.0" y="161" width="393" height="395"/>
-                                <color key="tintColor" systemColor="systemCyanColor"/>
-                            </datePicker>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="MLK-GG-cQU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="Vqh-HN-032" firstAttribute="centerX" secondItem="Ong-Ls-WII" secondAttribute="centerX" id="0iV-uE-ymc"/>
-                            <constraint firstItem="ZqS-eQ-KHw" firstAttribute="leading" secondItem="MLK-GG-cQU" secondAttribute="leading" id="7uu-ry-crb"/>
-                            <constraint firstItem="Vqh-HN-032" firstAttribute="top" secondItem="ZqS-eQ-KHw" secondAttribute="bottom" constant="5" id="Sdk-xz-xG2"/>
-                            <constraint firstItem="Vqh-HN-032" firstAttribute="centerY" secondItem="Ong-Ls-WII" secondAttribute="centerY" constant="150" id="aFC-cS-BIG"/>
-                            <constraint firstItem="ZqS-eQ-KHw" firstAttribute="trailing" secondItem="MLK-GG-cQU" secondAttribute="trailing" id="qTp-RR-Zaw"/>
-                            <constraint firstItem="ZqS-eQ-KHw" firstAttribute="centerX" secondItem="Ong-Ls-WII" secondAttribute="centerX" id="yZy-Kd-Khv"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="AmZ-4W-aDg"/>
                 </viewController>
@@ -179,7 +159,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ISv-5c-ahU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-709" y="-2"/>
+            <point key="canvasLocation" x="-692" y="-2"/>
         </scene>
     </scenes>
     <resources>
