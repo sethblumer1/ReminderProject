@@ -10,13 +10,13 @@ import SwiftUI
 
 class ViewController: UIViewController {
 
-    
-
     @IBOutlet weak var reminderTableView: UITableView!
-    
+    let defaults = UserDefaults.standard
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Check user default for phone number here
+        checkPhoneNumber()
         print("good morning")
         reminderTableView.delegate = self
         reminderTableView.dataSource = self
@@ -34,7 +34,22 @@ class ViewController: UIViewController {
         print("good night")
 
     }
-
+    func checkPhoneNumber() {
+        let phoneNumber = defaults.string(forKey: "phoneNum")
+        
+        if phoneNumber == nil
+        {
+            //pushAddNumberPage]
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let addNumberVC = storyboard.instantiateViewController(withIdentifier: "addPhoneNum")
+            addNumberVC.self.navigationController?.pushViewController(addNumberVC, animated: false)
+//            present(addNumberVC, animated: false)
+        } else {
+            //ignore
+            print(phoneNumber)
+        }
+        
+    }
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {

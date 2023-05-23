@@ -17,15 +17,17 @@ class AddPhoneNumViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        phoneNumEntry.delegate = self
+//        phoneNumEntry.delegate = self
+        view.backgroundColor = .red
 
         // Do any additional setup after loading the view.
     }
     
     @IBAction func hitContinueButton(_ sender: Any) {
         print(phoneNumEntry.text!)
-        // Set phone number to one input
-        phoneNum = phoneNumEntry.text!
+        // Save phone number input by user
+        defaults.set(phoneNumEntry.text!, forKey: "phoneNum")
+//        defaults.set(true, forKey: "hasPhoneNum")
         
         // Transition to main reminders storyboard
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "remindersTableVC") as? ViewController else {
@@ -33,18 +35,13 @@ class AddPhoneNumViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-//        present(vc, animated: true)
+        present(vc, animated: true)
 //        present()
-    }
-    
-    // Save phone number input by user
-    func saveUserPhoneNum() {
-        defaults.set(phoneNum, forKey: "phoneNum")
     }
     
     // Check if phone number exists user defaults
     func checkIfPhoneNum() {
-        let phoneNum = defaults.bool(forKey: "phoneNum")
+        let phoneNum = defaults.bool(forKey: "hasPhoneNum")
     }
     
     
