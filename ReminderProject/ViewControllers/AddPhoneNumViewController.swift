@@ -33,7 +33,8 @@ class AddPhoneNumViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        present(vc, animated: true)
+//        present(vc, animated: true)
+//        present()
     }
     
     // Save phone number input by user
@@ -41,6 +42,7 @@ class AddPhoneNumViewController: UIViewController, UITextFieldDelegate {
         defaults.set(phoneNum, forKey: "phoneNum")
     }
     
+    // Check if phone number exists user defaults
     func checkIfPhoneNum() {
         let phoneNum = defaults.bool(forKey: "phoneNum")
     }

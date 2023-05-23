@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Check user default for phone number here
         print("good morning")
         reminderTableView.delegate = self
         reminderTableView.dataSource = self
@@ -23,10 +24,12 @@ class ViewController: UIViewController {
         // Test comment
         // Corey First commit
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         print("good afternoon")
 
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         print("good night")
 
