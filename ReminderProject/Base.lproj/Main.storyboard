@@ -153,22 +153,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter phone number:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tum-7W-IgN">
-                                <rect key="frame" x="127" y="297" width="161" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter phone number:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tum-7W-IgN">
+                                <rect key="frame" x="126.5" y="296" width="161" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ltA-1B-dye">
-                                <rect key="frame" x="90" y="344" width="235" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ltA-1B-dye">
+                                <rect key="frame" x="89.5" y="347" width="235" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="235" id="upF-4a-N2l"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lr2-tj-Vkh">
-                                <rect key="frame" x="132" y="433" width="151" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lr2-tj-Vkh">
+                                <rect key="frame" x="160.5" y="431" width="93" height="34.5"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Continue"/>
                                 <connections>
@@ -178,6 +178,15 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="40f-OJ-kef"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Lr2-tj-Vkh" firstAttribute="top" secondItem="ltA-1B-dye" secondAttribute="bottom" constant="50" id="Be9-GE-Bt3"/>
+                            <constraint firstItem="ltA-1B-dye" firstAttribute="centerX" secondItem="pgx-88-je9" secondAttribute="centerX" id="Kv0-RA-K9q"/>
+                            <constraint firstItem="ltA-1B-dye" firstAttribute="centerX" secondItem="pgx-88-je9" secondAttribute="centerX" id="Oeg-Q2-hch"/>
+                            <constraint firstItem="ltA-1B-dye" firstAttribute="top" secondItem="tum-7W-IgN" secondAttribute="bottom" constant="30" id="ZiF-sZ-vcm"/>
+                            <constraint firstItem="Lr2-tj-Vkh" firstAttribute="centerX" secondItem="pgx-88-je9" secondAttribute="centerX" id="cqr-qr-V2K"/>
+                            <constraint firstItem="Lr2-tj-Vkh" firstAttribute="centerY" secondItem="pgx-88-je9" secondAttribute="centerY" id="eXm-tO-Y9M"/>
+                            <constraint firstItem="tum-7W-IgN" firstAttribute="centerX" secondItem="pgx-88-je9" secondAttribute="centerX" id="vIA-wX-ac2"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="0YL-Mh-j6S"/>
                     <connections>

@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Check user default for phone number here
+        defaults.removeObject(forKey: "phoneNum")
         checkPhoneNumber()
         print("good morning")
         reminderTableView.delegate = self
@@ -41,8 +42,9 @@ class ViewController: UIViewController {
         {
             //pushAddNumberPage]
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let addNumberVC = storyboard.instantiateViewController(withIdentifier: "addPhoneNum")
-            addNumberVC.self.navigationController?.pushViewController(addNumberVC, animated: false)
+            let vc = storyboard.instantiateViewController(withIdentifier: "addPhoneNum")
+            self.navigationController?.pushViewController(vc, animated: true)
+
 //            present(addNumberVC, animated: false)
         } else {
             //ignore
