@@ -26,15 +26,6 @@ class ViewController: UIViewController {
         // Corey First commit
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        print("good afternoon")
-
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        print("good night")
-
-    }
     func checkPhoneNumber() {
         let phoneNumber = defaults.string(forKey: "phoneNum")
         
@@ -45,10 +36,8 @@ class ViewController: UIViewController {
             let vc = storyboard.instantiateViewController(withIdentifier: "addPhoneNum")
             self.navigationController?.pushViewController(vc, animated: true)
 
-//            present(addNumberVC, animated: false)
         } else {
-            //ignore
-            print(phoneNumber)
+            print(phoneNumber) //ignore
         }
         
     }

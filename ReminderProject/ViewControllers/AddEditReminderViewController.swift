@@ -43,6 +43,9 @@ class AddEditReminderViewController: UIViewController {
         super.viewDidLoad()
         addSubviews()
         view.backgroundColor = .systemBackground
+//        let saveButton = UIBarButtonItem()
+//        saveButton.title = "Save"
+//        self.navigationController?.navigationBar.topItem?.rightBarButtonItem = saveButton
         // Do any additional setup after loading the view.
     }
     override func viewDidLayoutSubviews() {
