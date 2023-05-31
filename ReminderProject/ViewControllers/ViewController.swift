@@ -5,20 +5,26 @@
 //  Created by Blumer, Seth on 5/2/23.
 //
 
+import Foundation
 import UIKit
 import SwiftUI
 
 class ViewController: UIViewController {
 
     @IBOutlet weak var reminderTableView: UITableView!
+    
+    var reminders: [ReminderEntity] = []
+    
     let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Check user default for phone number here
         defaults.removeObject(forKey: "phoneNum")
-        checkPhoneNumber()
+//    TODO: uncomment below
+//        checkPhoneNumber()
         print("good morning")
+        getReminders()
         reminderTableView.delegate = self
         reminderTableView.dataSource = self
         reminderTableView.reloadData()
@@ -26,6 +32,11 @@ class ViewController: UIViewController {
         // Corey First commit
     }
     
+//TODO: setup NSNotification to call getReminders when ADDEDIT VC dismisses....
+    
+    func getReminders() {
+        reminders = CoreDataHelper.shareInstance.fetchReminders()
+    }
     func checkPhoneNumber() {
         let phoneNumber = defaults.string(forKey: "phoneNum")
         
@@ -46,13 +57,15 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        return reminders.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reminderCell", for: indexPath) as! RemindersTableViewCell
-        cell.reminderLabel.text = "ReMinDeR label!!!"
-        cell.expirationLabel.text = "1/1/23 4:45 PM"
+
+        let reminder = reminders[indexPath.row]
+        cell.reminderLabel.text = reminder.title
+        cell.expirationLabel.text = "1/1/23 4:45 PM"// reminder.date.da
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -64,12 +77,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let popUpVC = AddEditReminderViewController()
 
-//        let group = group[indexPath.row]
+        let reminder = reminders[indexPath.row]
         
         let config = UIContextMenuConfiguration(identifier: indexPath as NSIndexPath) { () -> UIViewController? in
-//            popUpVC.drawer = group
-//            popUpVC.title = group.name
-//            popUpVC.hidesBottomBarWhenPushed = true
+            popUpVC.datePicker.date = reminder.date!
+            popUpVC.reminderName.text = reminder.title
+            popUpVC.notes.text = reminder.notes!
+            popUpVC.hidesBottomBarWhenPushed = true
             return popUpVC
         } actionProvider: { (actions) -> UIMenu? in
             let shareAction = UIAction(
@@ -77,7 +91,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 image: UIImage(systemName: "square.and.arrow.up")) { _ in
                     // share the task
                 }
-
 
             let deleteAction = UIAction(
                 title: "Delete",

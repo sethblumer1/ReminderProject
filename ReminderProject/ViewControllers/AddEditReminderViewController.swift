@@ -8,8 +8,11 @@
 import Foundation
 import UIKit
 import SwiftUI
+import CoreData
 
 class AddEditReminderViewController: UIViewController {
+    
+    var reminder: ReminderEntity?
     
     lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -38,11 +41,20 @@ class AddEditReminderViewController: UIViewController {
         notes.backgroundColor = .secondarySystemBackground
         return notes
     }()
+    lazy var saveButton: UIButton = {
+        let button = UIButton()
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 8.0
+        button.setTitle("Save", for: .normal)
+        button.backgroundColor = .systemCyan
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
         view.backgroundColor = .systemBackground
+        saveButton.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
 //        let saveButton = UIBarButtonItem()
 //        saveButton.title = "Save"
 //        self.navigationController?.navigationBar.topItem?.rightBarButtonItem = saveButton
@@ -58,7 +70,8 @@ class AddEditReminderViewController: UIViewController {
             datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         reminderName.frame = CGRect(x: 20, y:  datePicker.top - 70, width: view.width - 40, height: 45)
-        notes.frame = CGRect(x: 20, y: datePicker.bottom + 25, width: view.width - 40, height: 120)
+        notes.frame = CGRect(x: 20, y: datePicker.bottom + 15, width: view.width - 40, height: 75)
+        saveButton.frame = CGRect(x: view.width/2 - 60 , y: notes.bottom + 15, width: 120, height: 40)
     }
     override func viewWillDisappear(_ animated: Bool) {
         print("see you")
@@ -66,9 +79,23 @@ class AddEditReminderViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         print("later")
     }
+    @objc func saveTapped() {
+        print("save tapped")
+        print(datePicker.date)
+        print(reminderName.text!)
+        print(notes.text!)
+        
+        if reminder == nil {
+            CoreDataHelper.shareInstance.createReminder(date: datePicker.date, title: reminderName.text!, notes: notes.text!, isRepeat: -1)
+            self.dismiss(animated: true)
+        } else {
+            CoreDataHelper.shareInstance.updateReminder(withId: (reminder?.id)!, newDate: datePicker.date, newTitle: reminderName.text!, newNotes: notes.text!, updatedRepeat: -1)
+        }
+    }
     func addSubviews() {
         view.addSubview(datePicker)
         view.addSubview(reminderName)
         view.addSubview(notes)
+        view.addSubview(saveButton)
     }
 }
