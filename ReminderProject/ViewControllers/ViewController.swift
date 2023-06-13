@@ -28,14 +28,21 @@ class ViewController: UIViewController {
         reminderTableView.delegate = self
         reminderTableView.dataSource = self
         reminderTableView.reloadData()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: NSNotification.Name("ReloadTable"), object: nil)
         // Test comment
         // Corey First commit
     }
-    
-//TODO: setup NSNotification to call getReminders when ADDEDIT VC dismisses....
-    
+    @objc func reloadTable() {
+        getReminders()
+        self.reminderTableView.reloadData()
+    }
     func getReminders() {
         reminders = CoreDataHelper.shareInstance.fetchReminders()
+    }
+    func getStringFromDate(reminderDate: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, h:mm a"
+        return dateFormatter.string(from: reminderDate)
     }
     func checkPhoneNumber() {
         let phoneNumber = defaults.string(forKey: "phoneNum")
@@ -56,11 +63,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func getStringFromDate(reminderDate: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        return dateFormatter.string(from: reminderDate)
-    }
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return reminders.count
@@ -71,12 +74,20 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
         let reminder = reminders[indexPath.row]
         cell.reminderLabel.text = reminder.title
-        cell.expirationLabel.text = "1/1/23 4:45 PM"// reminder.date.da
+        cell.expirationLabel.text = getStringFromDate(reminderDate: reminder.date!)
+        //"1/1/23 4:45 PM"// reminder.date.da
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath.row)")
+        
+        let reminder = reminders[indexPath.row]
+        
         let editVC = AddEditReminderViewController()
+        editVC.datePicker.date = reminder.date!
+        editVC.reminderName.text = reminder.title
+        editVC.notes.text = reminder.notes!
+        editVC.reminder = reminder
         navigationController?.pushViewController(editVC, animated: true)
     }
     //TODO: Fix this top fit our project
@@ -89,7 +100,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             popUpVC.datePicker.date = reminder.date!
             popUpVC.reminderName.text = reminder.title
             popUpVC.notes.text = reminder.notes!
-            popUpVC.hidesBottomBarWhenPushed = true
             return popUpVC
         } actionProvider: { (actions) -> UIMenu? in
             let shareAction = UIAction(
@@ -102,13 +112,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 title: "Delete",
                 image: UIImage(systemName: "trash"),
                 attributes: .destructive) { _ in
-                    let alert = UIAlertController(title: "Are you sure you want to delete this drawer?",
+                    let alert = UIAlertController(title: "Are you sure you want to delete this reminder?",
                                                   message: "",
                                                   preferredStyle: .alert)
                     alert.view.tintColor = UIColor.label
                     alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { action in
-//                        self.group.remove(at: indexPath.row)
-//                        self.tableView.reloadData()
+                        let reminders = self.reminders[indexPath.row]
+                        CoreDataHelper.shareInstance.deleteReminder(reminder: reminders)
+                        self.reminders.remove(at: indexPath.row)
+                        self.reminderTableView.reloadData()
                     }))
                     alert.addAction(UIAlertAction(title: "Cancel",
                                                   style: .cancel, handler: nil))

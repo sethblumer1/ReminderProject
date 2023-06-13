@@ -74,23 +74,30 @@ class AddEditReminderViewController: UIViewController {
         saveButton.frame = CGRect(x: view.width/2 - 60 , y: notes.bottom + 15, width: 120, height: 40)
     }
     override func viewWillDisappear(_ animated: Bool) {
-        print("see you")
+        NotificationCenter.default.post(name: NSNotification.Name("ReloadTable"), object: nil)
     }
     override func viewDidDisappear(_ animated: Bool) {
-        print("later")
+        super.viewDidDisappear(animated)
+//        NotificationCenter.default.post(name: NSNotification.Name("ReloadTable"), object: nil)
     }
     @objc func saveTapped() {
         print("save tapped")
         print(datePicker.date)
         print(reminderName.text!)
         print(notes.text!)
-        
-        if reminder == nil {
-            CoreDataHelper.shareInstance.createReminder(date: datePicker.date, title: reminderName.text!, notes: notes.text!, isRepeat: -1)
-            self.dismiss(animated: true)
+        if reminderName.text != "" {
+            if reminder == nil {
+                CoreDataHelper.shareInstance.createReminder(date: datePicker.date, title: reminderName.text!, notes: notes.text!, isRepeat: -1)
+                self.dismiss(animated: true)
+            } else {
+                CoreDataHelper.shareInstance.updateReminder(withId: (reminder?.id)!, newDate: datePicker.date, newTitle: reminderName.text!, newNotes: notes.text!, updatedRepeat: -1)
+                self.navigationController?.popToRootViewController(animated: true)
+            }
         } else {
-            CoreDataHelper.shareInstance.updateReminder(withId: (reminder?.id)!, newDate: datePicker.date, newTitle: reminderName.text!, newNotes: notes.text!, updatedRepeat: -1)
+//            throw alert
+//        TODO: setup alert to remind user to give reminder a name
         }
+
     }
     func addSubviews() {
         view.addSubview(datePicker)
