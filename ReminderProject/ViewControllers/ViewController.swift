@@ -127,7 +127,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     self.present(alert, animated: true)
                 }
             
-            return UIMenu(title: "", children: [shareAction, deleteAction])
+            return UIMenu(title: "", children: [deleteAction])
         }
         return config
     }

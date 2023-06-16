@@ -23,6 +23,11 @@ class AddEditReminderViewController: UIViewController {
         datePicker.layer.masksToBounds = true // this allows you to change the corner radius
         return datePicker
     }()
+    lazy var repeatPicker: UIPickerView = {
+        let picker = UIPickerView()
+        picker.backgroundColor = .black
+        return picker
+    }()
     lazy var reminderName: UITextField = {
         let reminderName = UITextField()
         reminderName.placeholder = "Reminder Name"
@@ -65,20 +70,20 @@ class AddEditReminderViewController: UIViewController {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            datePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            datePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: view.height/10 + 60),
             datePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
-        reminderName.frame = CGRect(x: 20, y:  datePicker.top - 70, width: view.width - 40, height: 45)
-        notes.frame = CGRect(x: 20, y: datePicker.bottom + 15, width: view.width - 40, height: 75)
-        saveButton.frame = CGRect(x: view.width/2 - 60 , y: notes.bottom + 15, width: 120, height: 40)
+        reminderName.frame = CGRect(x: 20, y: view.height/10 + 5 /*datePicker.top - 70*/, width: view.width - 40, height: 45)
+        notes.frame = CGRect(x: 20, y: datePicker.bottom + 15, width: view.width - 40, height: view.height/15)
+        repeatPicker.frame = CGRect(x: 20, y: notes.bottom + 15, width: view.width - 40, height: view.height/15)
+        saveButton.frame = CGRect(x: view.width/2 - 60 , y: view.bottom - 60, width: 120, height: 40)
     }
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.post(name: NSNotification.Name("ReloadTable"), object: nil)
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-//        NotificationCenter.default.post(name: NSNotification.Name("ReloadTable"), object: nil)
     }
     @objc func saveTapped() {
         print("save tapped")
@@ -94,9 +99,16 @@ class AddEditReminderViewController: UIViewController {
                 self.navigationController?.popToRootViewController(animated: true)
             }
         } else {
-//            throw alert
-//        TODO: setup alert to remind user to give reminder a name
+                                                                        // throw alert
+            let alert = UIAlertController(title: "Can't Save Reminder",
+                                          message: "No name provided for reminder",
+                                          preferredStyle: .alert)
+            alert.view.tintColor = UIColor.label
+            alert.addAction(UIAlertAction(title: "Cancel",
+                                          style: .cancel, handler: nil))
+            self.present(alert, animated: true)
         }
+        //        TODO: throw an error if the assigned date is >= today's time and date
 
     }
     func addSubviews() {
@@ -104,5 +116,6 @@ class AddEditReminderViewController: UIViewController {
         view.addSubview(reminderName)
         view.addSubview(notes)
         view.addSubview(saveButton)
+        view.addSubview(repeatPicker)
     }
 }
