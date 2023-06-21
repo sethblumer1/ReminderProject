@@ -10,8 +10,43 @@ import UIKit
 import SwiftUI
 import CoreData
 
-class AddEditReminderViewController: UIViewController {
-    
+class AddEditReminderViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 7
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch row {
+        case 0:
+            return "none"
+        case 1:
+            return "daily"
+        case 2:
+            return "weekdays"
+        case 3:
+            return "weekly"
+        case 4:
+            return "bi-weekly"
+        case 5:
+            return "monthly"
+        case 6:
+            return "yearly"
+        default:
+            return "none"
+        }
+        /*
+         daily
+         weekdays
+         weekly
+         bi-weekly
+         monthly
+         yearly
+         */
+    }
     var reminder: ReminderEntity?
     
     lazy var datePicker: UIDatePicker = {
@@ -23,9 +58,18 @@ class AddEditReminderViewController: UIViewController {
         datePicker.layer.masksToBounds = true // this allows you to change the corner radius
         return datePicker
     }()
+    lazy var repeatLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Repeat:"
+        label.textColor = .label
+        label.font = UIFont(name: "Helvetica Neue Medium", size: 18)
+        return label
+    }()
     lazy var repeatPicker: UIPickerView = {
         let picker = UIPickerView()
-        picker.backgroundColor = .black
+        picker.layer.masksToBounds = true
+        picker.layer.cornerRadius = 8.0
+        picker.backgroundColor = .secondarySystemBackground
         return picker
     }()
     lazy var reminderName: UITextField = {
@@ -42,6 +86,7 @@ class AddEditReminderViewController: UIViewController {
     lazy var notes: UITextView = {
         let notes = UITextView()
         notes.layer.masksToBounds = true
+        notes.text = "Notes: "//.placeholder = "Notes:"
         notes.layer.cornerRadius = 8.0
         notes.backgroundColor = .secondarySystemBackground
         return notes
@@ -60,6 +105,8 @@ class AddEditReminderViewController: UIViewController {
         addSubviews()
         view.backgroundColor = .systemBackground
         saveButton.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
+        repeatPicker.delegate = self
+        repeatPicker.dataSource = self
 //        let saveButton = UIBarButtonItem()
 //        saveButton.title = "Save"
 //        self.navigationController?.navigationBar.topItem?.rightBarButtonItem = saveButton
@@ -75,8 +122,9 @@ class AddEditReminderViewController: UIViewController {
             datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         reminderName.frame = CGRect(x: 20, y: view.height/10 + 5 /*datePicker.top - 70*/, width: view.width - 40, height: 45)
-        notes.frame = CGRect(x: 20, y: datePicker.bottom + 15, width: view.width - 40, height: view.height/15)
-        repeatPicker.frame = CGRect(x: 20, y: notes.bottom + 15, width: view.width - 40, height: view.height/15)
+        notes.frame = CGRect(x: 20, y: datePicker.bottom + 10, width: view.width - 40, height: view.height/13)
+        repeatPicker.frame = CGRect(x: 120, y: notes.bottom + 10, width: view.width - 140, height: view.height/15)
+        repeatLabel.frame = CGRect(x: 30, y: notes.bottom + 10, width: view.width - repeatPicker.width, height: view.height/15)
         saveButton.frame = CGRect(x: view.width/2 - 60 , y: view.bottom - 60, width: 120, height: 40)
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -87,9 +135,10 @@ class AddEditReminderViewController: UIViewController {
     }
     @objc func saveTapped() {
         print("save tapped")
-//        print(datePicker.date)
-//        print(reminderName.text!)
-//        print(notes.text!)
+        print("selected reminder \(repeatPicker.selectedRow(inComponent: 0))")
+        print(datePicker.date)
+        print(reminderName.text!)
+        print(notes.text!)
         if reminderName.text != "" {
             if reminder == nil {
                 CoreDataHelper.shareInstance.createReminder(date: datePicker.date, title: reminderName.text!, notes: notes.text!, isRepeat: -1)
@@ -123,5 +172,6 @@ class AddEditReminderViewController: UIViewController {
         view.addSubview(notes)
         view.addSubview(saveButton)
         view.addSubview(repeatPicker)
+        view.addSubview(repeatLabel)
     }
 }
