@@ -25,6 +25,7 @@
 		DE7AB6312A01910800E6545D /* ReminderProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7AB6302A01910800E6545D /* ReminderProjectTests.swift */; };
 		DE7AB63B2A01910800E6545D /* ReminderProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7AB63A2A01910800E6545D /* ReminderProjectUITests.swift */; };
 		DE7AB63D2A01910800E6545D /* ReminderProjectUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7AB63C2A01910800E6545D /* ReminderProjectUITestsLaunchTests.swift */; };
+		DE9FBB892A3CE8C200F57B0E /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9FBB882A3CE8C200F57B0E /* Requests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		DE7AB6362A01910800E6545D /* ReminderProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReminderProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE7AB63A2A01910800E6545D /* ReminderProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderProjectUITests.swift; sourceTree = "<group>"; };
 		DE7AB63C2A01910800E6545D /* ReminderProjectUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderProjectUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DE9FBB882A3CE8C200F57B0E /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 		DE7AB6152A01910400E6545D /* ReminderProject */ = {
 			isa = PBXGroup;
 			children = (
+				DE9FBB872A3CE8B000F57B0E /* CrudFunctions */,
 				DE7AB6162A01910400E6545D /* AppDelegate.swift */,
 				DE7AB6182A01910400E6545D /* SceneDelegate.swift */,
 				491C95732A0C1073009D7319 /* Extensions.swift */,
@@ -176,6 +179,14 @@
 				DE7AB63C2A01910800E6545D /* ReminderProjectUITestsLaunchTests.swift */,
 			);
 			path = ReminderProjectUITests;
+			sourceTree = "<group>";
+		};
+		DE9FBB872A3CE8B000F57B0E /* CrudFunctions */ = {
+			isa = PBXGroup;
+			children = (
+				DE9FBB882A3CE8C200F57B0E /* Requests.swift */,
+			);
+			path = CrudFunctions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,6 +324,7 @@
 				49A375F82A0AC4E9004A4116 /* RemindersTableViewCell.swift in Sources */,
 				DE640D8D2A1D31A2006BB348 /* AddPhoneNumViewController.swift in Sources */,
 				49AD3A752A0AC11700B9D78D /* AddEditReminderViewController.swift in Sources */,
+				DE9FBB892A3CE8C200F57B0E /* Requests.swift in Sources */,
 				491C95742A0C1073009D7319 /* Extensions.swift in Sources */,
 				DE7AB6212A01910400E6545D /* ReminderProject.xcdatamodeld in Sources */,
 				4940B5E12A1EA0A6008857FA /* CoreDataHelper.swift in Sources */,

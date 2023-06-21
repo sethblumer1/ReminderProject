@@ -87,13 +87,19 @@ class AddEditReminderViewController: UIViewController {
     }
     @objc func saveTapped() {
         print("save tapped")
-        print(datePicker.date)
-        print(reminderName.text!)
-        print(notes.text!)
+//        print(datePicker.date)
+//        print(reminderName.text!)
+//        print(notes.text!)
         if reminderName.text != "" {
             if reminder == nil {
                 CoreDataHelper.shareInstance.createReminder(date: datePicker.date, title: reminderName.text!, notes: notes.text!, isRepeat: -1)
                 self.dismiss(animated: true)
+                
+                // Add reminder to DB
+                addReminder(reminderDate: datePicker.date,
+                            reminderTitle: reminderName.text!,
+                            reminderNotes: notes.text!,
+                            isRepeat: -1)
             } else {
                 CoreDataHelper.shareInstance.updateReminder(withId: (reminder?.id)!, newDate: datePicker.date, newTitle: reminderName.text!, newNotes: notes.text!, updatedRepeat: -1)
                 self.navigationController?.popToRootViewController(animated: true)
