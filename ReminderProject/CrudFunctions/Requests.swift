@@ -31,18 +31,24 @@ func dictionaryToString(jsonDictionary: JSONDictionary) -> String {
 
 func getStringFromDate(reminderDate: Date) -> String {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "MMM d, h:mm a"
+    dateFormatter.dateFormat = "MMM d yyyy, h:mm a"
     return dateFormatter.string(from: reminderDate)
 }
 
 func addReminder(reminderDate: Date, reminderTitle: String, reminderNotes: String, isRepeat: Int) {
+    var minutesOffset: Int { return TimeZone.current.secondsFromGMT() }
+    let hoursOffset = minutesOffset / 3600 * -1
+    
     // Create new reminer dictionary
     let reminderDict: JSONDictionary = ["id": UUID().uuidString,
                                        "phoneNum": "2037247233",
                                        "date": getStringFromDate(reminderDate: reminderDate),
                                        "title": reminderTitle,
                                        "notes": reminderNotes,
-                                       "isRepeat": String(isRepeat)]
+                                       "isRepeat": String(isRepeat),
+                                       "hoursOffset": String(hoursOffset)]
+    
+    print(reminderDict)
     
     // Stringify dictionary
     let reminderDictStringified = dictionaryToString(jsonDictionary: reminderDict)
