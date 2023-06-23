@@ -55,15 +55,13 @@ class ViewController: UIViewController {
             self.navigationController?.pushViewController(vc, animated: true)
 
         } else {
-            print(phoneNumber) //ignore
+            print(phoneNumber!) //ignore
         }
         
     }
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
-    
-
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return reminders.count
@@ -88,6 +86,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         editVC.reminderName.text = reminder.title
         editVC.notes.text = reminder.notes!
         editVC.reminder = reminder
+        editVC.repreatIndex = Int(reminder.isRepeat)
         navigationController?.pushViewController(editVC, animated: true)
     }
     //TODO: Fix this top fit our project
@@ -102,11 +101,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             popUpVC.notes.text = reminder.notes!
             return popUpVC
         } actionProvider: { (actions) -> UIMenu? in
-            let shareAction = UIAction(
-                title: "Share",
-                image: UIImage(systemName: "square.and.arrow.up")) { _ in
-                    // share the task
-                }
+//            let shareAction = UIAction(
+//                title: "Share",
+//                image: UIImage(systemName: "square.and.arrow.up")) { _ in
+//                    // share the task
+//                }
 
             let deleteAction = UIAction(
                 title: "Delete",

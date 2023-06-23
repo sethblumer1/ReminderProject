@@ -10,44 +10,10 @@ import UIKit
 import SwiftUI
 import CoreData
 
-class AddEditReminderViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class AddEditReminderViewController: UIViewController {
 
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 7
-    }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch row {
-        case 0:
-            return "none"
-        case 1:
-            return "daily"
-        case 2:
-            return "weekdays"
-        case 3:
-            return "weekly"
-        case 4:
-            return "bi-weekly"
-        case 5:
-            return "monthly"
-        case 6:
-            return "yearly"
-        default:
-            return "none"
-        }
-        /*
-         daily
-         weekdays
-         weekly
-         bi-weekly
-         monthly
-         yearly
-         */
-    }
     var reminder: ReminderEntity?
+    var repreatIndex = 0
     
     lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -107,9 +73,7 @@ class AddEditReminderViewController: UIViewController, UIPickerViewDelegate, UIP
         saveButton.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
         repeatPicker.delegate = self
         repeatPicker.dataSource = self
-//        let saveButton = UIBarButtonItem()
-//        saveButton.title = "Save"
-//        self.navigationController?.navigationBar.topItem?.rightBarButtonItem = saveButton
+        repeatPicker.selectRow(repreatIndex, inComponent: 0, animated: false)
         // Do any additional setup after loading the view.
     }
     override func viewDidLayoutSubviews() {
@@ -122,10 +86,12 @@ class AddEditReminderViewController: UIViewController, UIPickerViewDelegate, UIP
             datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         reminderName.frame = CGRect(x: 20, y: view.height/10 + 5 /*datePicker.top - 70*/, width: view.width - 40, height: 45)
-        notes.frame = CGRect(x: 20, y: datePicker.bottom + 10, width: view.width - 40, height: view.height/13)
+        notes.frame = CGRect(x: 20, y: datePicker.bottom + 10, width: view.width - 40, height: view.height/1.25 - (reminderName.height + repeatPicker.height + datePicker.height + saveButton.height - 15))
+//        notes.frame = CGRect(x: 20, y: datePicker.bottom + 10, width: view.width - 40, height: view.height/13)
         repeatPicker.frame = CGRect(x: 120, y: notes.bottom + 10, width: view.width - 140, height: view.height/15)
         repeatLabel.frame = CGRect(x: 30, y: notes.bottom + 10, width: view.width - repeatPicker.width, height: view.height/15)
-        saveButton.frame = CGRect(x: view.width/2 - 60 , y: view.bottom - 60, width: 120, height: 40)
+        saveButton.frame = CGRect(x: view.width/2 - 60 , y: repeatPicker.bottom + 10, width: 120, height: 40)
+//        saveButton.frame = CGRect(x: view.width/2 - 60 , y: view.bottom - 60, width: 120, height: 40)
     }
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.post(name: NSNotification.Name("ReloadTable"), object: nil)
@@ -136,12 +102,13 @@ class AddEditReminderViewController: UIViewController, UIPickerViewDelegate, UIP
     @objc func saveTapped() {
         print("save tapped")
         print("selected reminder \(repeatPicker.selectedRow(inComponent: 0))")
+        repreatIndex = (repeatPicker.selectedRow(inComponent: 0))
         print(datePicker.date)
         print(reminderName.text!)
         print(notes.text!)
         if reminderName.text != "" {
             if reminder == nil {
-                CoreDataHelper.shareInstance.createReminder(date: datePicker.date, title: reminderName.text!, notes: notes.text!, isRepeat: -1)
+                CoreDataHelper.shareInstance.createReminder(date: datePicker.date, title: reminderName.text!, notes: notes.text!, isRepeat: Int16(repreatIndex))
                 self.dismiss(animated: true)
                 
                 // Add reminder to DB
@@ -150,7 +117,7 @@ class AddEditReminderViewController: UIViewController, UIPickerViewDelegate, UIP
                             reminderNotes: notes.text!,
                             isRepeat: -1)
             } else {
-                CoreDataHelper.shareInstance.updateReminder(withId: (reminder?.id)!, newDate: datePicker.date, newTitle: reminderName.text!, newNotes: notes.text!, updatedRepeat: -1)
+                CoreDataHelper.shareInstance.updateReminder(withId: (reminder?.id)!, newDate: datePicker.date, newTitle: reminderName.text!, newNotes: notes.text!, updatedRepeat: Int16(repreatIndex))
                 self.navigationController?.popToRootViewController(animated: true)
             }
         } else {
@@ -173,5 +140,43 @@ class AddEditReminderViewController: UIViewController, UIPickerViewDelegate, UIP
         view.addSubview(saveButton)
         view.addSubview(repeatPicker)
         view.addSubview(repeatLabel)
+    }
+}
+extension AddEditReminderViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 7
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch row {
+        case 0:
+            return "none"
+        case 1:
+            return "daily"
+        case 2:
+            return "weekdays"
+        case 3:
+            return "weekly"
+        case 4:
+            return "bi-weekly"
+        case 5:
+            return "monthly"
+        case 6:
+            return "yearly"
+        default:
+            return "none"
+        }
+        /*
+         daily
+         weekdays
+         weekly
+         bi-weekly
+         monthly
+         yearly
+         */
     }
 }
