@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ebc-uT-PPr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ebc-uT-PPr">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,11 +17,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="hAS-Mk-POQ">
-                                <rect key="frame" x="0.0" y="112" width="414" height="750"/>
+                                <rect key="frame" x="0.0" y="108" width="414" height="754"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="reminderCell" rowHeight="70" id="hoL-aM-ukr" customClass="RemindersTableViewCell" customModule="ReminderProject" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="414" height="70"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hoL-aM-ukr" id="DmO-bk-dGB">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
@@ -134,7 +133,7 @@
             <objects>
                 <viewController id="7HD-oh-kcT" customClass="AddEditReminderViewController" customModule="ReminderProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ong-Ls-WII">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="MLK-GG-cQU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -154,13 +153,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter phone number:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tum-7W-IgN">
-                                <rect key="frame" x="124.5" y="297" width="165.5" height="20"/>
+                                <rect key="frame" x="124.5" y="323.5" width="165.5" height="20"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select reminders version:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Waf-xV-3ts">
+                                <rect key="frame" x="107.5" y="538.5" width="199" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ltA-1B-dye">
-                                <rect key="frame" x="89.5" y="347" width="235" height="34"/>
+                                <rect key="frame" x="89.5" y="373.5" width="235" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="235" id="upF-4a-N2l"/>
                                 </constraints>
@@ -168,45 +173,56 @@
                                 <textInputTraits key="textInputTraits" keyboardType="phonePad" textContentType="tel"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lr2-tj-Vkh">
-                                <rect key="frame" x="160.5" y="431" width="93" height="34.5"/>
+                                <rect key="frame" x="166" y="432.5" width="82.5" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Continue"/>
                                 <connections>
                                     <action selector="hitContinueButton:" destination="OD8-KB-Thi" eventType="touchUpInside" id="3ON-hq-o8Q"/>
                                 </connections>
                             </button>
-                            <pickerView tag="2" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cxI-Ai-Vnf">
-                                <rect key="frame" x="0.0" y="48" width="414" height="162"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            </pickerView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="E9I-pO-xGS">
+                                <rect key="frame" x="143.5" y="589.5" width="127" height="32"/>
+                                <segments>
+                                    <segment title="Local"/>
+                                    <segment title="Hosted"/>
+                                </segments>
+                                <connections>
+                                    <action selector="changeVersionType:" destination="OD8-KB-Thi" eventType="valueChanged" id="P2d-kg-D4J"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="40f-OJ-kef"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Lr2-tj-Vkh" firstAttribute="top" secondItem="ltA-1B-dye" secondAttribute="bottom" constant="50" id="Be9-GE-Bt3"/>
+                            <constraint firstItem="E9I-pO-xGS" firstAttribute="top" secondItem="Waf-xV-3ts" secondAttribute="bottom" constant="30" id="CE8-ij-j3n"/>
+                            <constraint firstItem="E9I-pO-xGS" firstAttribute="centerX" secondItem="pgx-88-je9" secondAttribute="centerX" id="Hxv-Zk-O1P"/>
+                            <constraint firstItem="Waf-xV-3ts" firstAttribute="centerX" secondItem="pgx-88-je9" secondAttribute="centerX" id="KP6-ud-vAL"/>
                             <constraint firstItem="ltA-1B-dye" firstAttribute="centerX" secondItem="pgx-88-je9" secondAttribute="centerX" id="Kv0-RA-K9q"/>
                             <constraint firstItem="ltA-1B-dye" firstAttribute="centerX" secondItem="pgx-88-je9" secondAttribute="centerX" id="Oeg-Q2-hch"/>
                             <constraint firstItem="ltA-1B-dye" firstAttribute="top" secondItem="tum-7W-IgN" secondAttribute="bottom" constant="30" id="ZiF-sZ-vcm"/>
                             <constraint firstItem="Lr2-tj-Vkh" firstAttribute="centerX" secondItem="pgx-88-je9" secondAttribute="centerX" id="cqr-qr-V2K"/>
                             <constraint firstItem="Lr2-tj-Vkh" firstAttribute="centerY" secondItem="pgx-88-je9" secondAttribute="centerY" id="eXm-tO-Y9M"/>
+                            <constraint firstItem="Waf-xV-3ts" firstAttribute="top" secondItem="Lr2-tj-Vkh" secondAttribute="bottom" constant="75" id="qfS-e2-oKN"/>
                             <constraint firstItem="tum-7W-IgN" firstAttribute="centerX" secondItem="pgx-88-je9" secondAttribute="centerX" id="vIA-wX-ac2"/>
+                            <constraint firstItem="Lr2-tj-Vkh" firstAttribute="top" secondItem="ltA-1B-dye" secondAttribute="bottom" constant="25" id="xfy-4o-gvR"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="0YL-Mh-j6S"/>
                     <connections>
                         <outlet property="phoneNumEntry" destination="ltA-1B-dye" id="7XL-1K-E7B"/>
+                        <outlet property="versionSegementedControl" destination="E9I-pO-xGS" id="g3u-ei-4GG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yuo-fM-TQ1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="348" y="-738"/>
+            <point key="canvasLocation" x="347.82608695652175" y="-738.61607142857144"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Zvb-BB-3HA">
             <objects>
                 <navigationController id="ebc-uT-PPr" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="5z6-6L-5sa">
-                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -219,7 +235,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="gearshape" catalog="system" width="128" height="123"/>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

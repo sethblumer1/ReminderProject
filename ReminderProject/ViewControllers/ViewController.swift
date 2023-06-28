@@ -21,35 +21,39 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Check user default for phone number here
         defaults.removeObject(forKey: "phoneNum")
-//    TODO: uncomment below
-//        checkPhoneNumber()
-        print("good morning")
+        //    TODO: uncomment below
+        checkPhoneNumber()
+//        print("good morning")
         getReminders()
         reminderTableView.delegate = self
         reminderTableView.dataSource = self
         reminderTableView.reloadData()
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: NSNotification.Name("ReloadTable"), object: nil)
-        // Test comment
-        // Corey First commit
     }
+    
     @objc func reloadTable() {
         getReminders()
+//        print(defaults.string(forKey: "versionType"))
+//        let currentVersion = defaults.string(forKey: "versionType")!
+//        print(currentVersion)
         self.reminderTableView.reloadData()
     }
+    
     func getReminders() {
         reminders = CoreDataHelper.shareInstance.fetchReminders()
     }
+    
     func getStringFromDate(reminderDate: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, h:mm a"
         return dateFormatter.string(from: reminderDate)
     }
+    
     func checkPhoneNumber() {
         let phoneNumber = defaults.string(forKey: "phoneNum")
         
         if phoneNumber == nil
         {
-            //pushAddNumberPage]
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "addPhoneNum")
             self.navigationController?.pushViewController(vc, animated: true)
@@ -57,7 +61,6 @@ class ViewController: UIViewController {
         } else {
             print(phoneNumber!) //ignore
         }
-        
     }
 }
 
