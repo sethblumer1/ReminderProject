@@ -14,7 +14,7 @@ class AddEditReminderViewController: UIViewController {
 
     var reminder: ReminderEntity?
     var repreatIndex = 0
-    
+    let date = Date()
     lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.preferredDatePickerStyle = .inline
@@ -108,14 +108,28 @@ class AddEditReminderViewController: UIViewController {
         print(notes.text!)
         if reminderName.text != "" {
             if reminder == nil {
-                CoreDataHelper.shareInstance.createReminder(date: datePicker.date, title: reminderName.text!, notes: notes.text!, isRepeat: Int16(repreatIndex))
-                self.dismiss(animated: true)
+                if datePicker.date > date {
+                    CoreDataHelper.shareInstance.createReminder(date: datePicker.date, title: reminderName.text!, notes: notes.text!, isRepeat: Int16(repreatIndex))
+                    self.dismiss(animated: true)
+                    
+                    // Add reminder to DB
+                    addReminder(reminderDate: datePicker.date,
+                                reminderTitle: reminderName.text!,
+                                reminderNotes: notes.text!,
+                                isRepeat: -1)
+                } else {
+                    // throw alert
+                    let alert = UIAlertController(title: "Date error",
+                                                  message: "Reminder date is before current date",
+                                                  preferredStyle: .alert)
+                    alert.view.tintColor = UIColor.label
+                    alert.addAction(UIAlertAction(title: "Cancel",
+                                                  style: .cancel, handler: nil))
+                    self.present(alert, animated: true)
+
+                }
                 
-                // Add reminder to DB
-                addReminder(reminderDate: datePicker.date,
-                            reminderTitle: reminderName.text!,
-                            reminderNotes: notes.text!,
-                            isRepeat: -1)
+
             } else {
                 CoreDataHelper.shareInstance.updateReminder(withId: (reminder?.id)!, newDate: datePicker.date, newTitle: reminderName.text!, newNotes: notes.text!, updatedRepeat: Int16(repreatIndex))
                 self.navigationController?.popToRootViewController(animated: true)
@@ -123,7 +137,7 @@ class AddEditReminderViewController: UIViewController {
         } else {
                                                                         // throw alert
             let alert = UIAlertController(title: "Can't Save Reminder",
-                                          message: "No name provided for reminder",
+                                          message: "Please provide a name for reminder",
                                           preferredStyle: .alert)
             alert.view.tintColor = UIColor.label
             alert.addAction(UIAlertAction(title: "Cancel",

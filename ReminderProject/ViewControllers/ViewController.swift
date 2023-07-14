@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var reminderTableView: UITableView!
     
     var reminders: [ReminderEntity] = []
-    
+    let date = Date()
     let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
@@ -76,6 +76,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let reminder = reminders[indexPath.row]
         cell.reminderLabel.text = reminder.title
         cell.expirationLabel.text = getStringFromDate(reminderDate: reminder.date!)
+        if reminders[indexPath.row].date! < date {
+            cell.expirationLabel.textColor = .red
+        } else {
+            cell.expirationLabel.textColor = .label
+        }
         //"1/1/23 4:45 PM"// reminder.date.da
         return cell
     }
