@@ -41,7 +41,7 @@ class CoreDataHelper {
         reminder.title = newTitle
         reminder.notes = newNotes
         reminder.isRepeat = updatedRepeat
-        
+        editScheduledNotification(at: reminder.date!.timeIntervalSince1970, reminderID: reminder.id!, withTitle: reminder.title!, andBody: reminder.notes!, repeatInterval: Int(reminder.isRepeat))
         do {
             try context.save()
         } catch {
@@ -51,6 +51,7 @@ class CoreDataHelper {
     //func to delete reminder from core data
     func deleteReminder(reminder: ReminderEntity) {
         context.delete(reminder)
+        deleteScheduledNotification(reminderID: reminder.id!)
         do {
             try context.save()
         } catch {
@@ -147,4 +148,23 @@ class CoreDataHelper {
             }
         }
     }
+    func deleteScheduledNotification(reminderID: UUID) {
+        let center = UNUserNotificationCenter.current()
+        
+        // Remove the notification with the specified identifier
+        let uuidString = reminderID.uuidString
+        center.removePendingNotificationRequests(withIdentifiers: [uuidString])
+    }
+    
+    func editScheduledNotification(at timestamp: TimeInterval, reminderID: UUID, withTitle title: String, andBody body: String, repeatInterval: Int) {
+        let center = UNUserNotificationCenter.current()
+        
+        // Remove the existing notification with the specified identifier
+        let uuidString = reminderID.uuidString
+        center.removePendingNotificationRequests(withIdentifiers: [uuidString])
+        
+        // Schedule the updated notification using the provided parameters
+        scheduleLocalNotification(at: timestamp, reminderID: reminderID, withTitle: title, andBody: body, repeatInterval: repeatInterval)
+    }
+
 }
