@@ -9,6 +9,7 @@ import Foundation
 import CoreData
 import UIKit
 import SwiftUI
+import UserNotifications
 
 class CoreDataHelper {
     
@@ -23,6 +24,7 @@ class CoreDataHelper {
         newReminder.notes = notes
         newReminder.isRepeat = isRepeat
         newReminder.id = UUID()
+        scheduleLocalNotification(at: newReminder.date!.timeIntervalSince1970, reminderID: newReminder.id!, withTitle: newReminder.title!, andBody: newReminder.notes!, repeatInterval: Int(newReminder.isRepeat))
         do {
             try context.save()
         } catch {
@@ -81,5 +83,68 @@ class CoreDataHelper {
             print("error fetching \(error)")
         }
         return reminder
+    }
+    
+    func scheduleLocalNotification(at timestamp: TimeInterval, reminderID: UUID, withTitle title: String, andBody body: String, repeatInterval: Int) {
+        let center = UNUserNotificationCenter.current()
+        
+        // Request permission to display notifications (if not already granted)
+        center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+            if granted {
+                // Create a notification content
+                let content = UNMutableNotificationContent()
+                content.title = title
+                content.body = body
+                content.sound = UNNotificationSound.default
+                
+                // Create a date component based on the provided timestamp
+                let date = Date(timeIntervalSince1970: timestamp)
+                let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+                
+                var trigger: UNNotificationTrigger
+                
+                switch repeatInterval {
+                case 0:
+                    trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+                case 1:
+                    trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                case 2:
+                    trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                    trigger = UNTimeIntervalNotificationTrigger(timeInterval: 604800, repeats: true)
+                case 3:
+                    var weeklyComponents = DateComponents()
+                    weeklyComponents.hour = dateComponents.hour
+                    weeklyComponents.minute = dateComponents.minute
+                    trigger = UNCalendarNotificationTrigger(dateMatching: weeklyComponents, repeats: true)
+                    trigger = UNTimeIntervalNotificationTrigger(timeInterval: 86400, repeats: true)
+                case 4:
+                    trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                    trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1209600, repeats: true)
+                case 5:
+                    trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                    trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2592000, repeats: true)
+                case 6:
+                    trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                    trigger = UNTimeIntervalNotificationTrigger(timeInterval: 31536000, repeats: true)
+                default:
+                    trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+                }
+                
+                // Create a notification request
+                let uuidString = reminderID.uuidString //UUID().uuidString
+                let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
+                
+                // Schedule the notification
+                center.add(request) { (error) in
+                    if let error = error {
+                        print("Error scheduling notification: \(error)")
+                    } else {
+                        print("Notification scheduled successfully!")
+                    }
+                }
+            } else {
+                print("Notification permission not granted.")
+            }
+        }
     }
 }

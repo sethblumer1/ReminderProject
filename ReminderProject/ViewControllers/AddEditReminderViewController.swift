@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import SwiftUI
 import CoreData
+import UserNotifications
 
 class AddEditReminderViewController: UIViewController {
 
@@ -110,6 +111,7 @@ class AddEditReminderViewController: UIViewController {
             if reminder == nil {
                 if datePicker.date > date {
                     CoreDataHelper.shareInstance.createReminder(date: datePicker.date, title: reminderName.text!, notes: notes.text!, isRepeat: Int16(repreatIndex))
+//                    scheduleLocalNotification(at: datePicker.date.timeIntervalSince1970, reminderID: <#T##UUID#>, withTitle: <#T##String#>, andBody: <#T##String#>, repeatInterval: repreatIndex)
                     self.dismiss(animated: true)
                     
                     // Add reminder to DB
@@ -126,12 +128,11 @@ class AddEditReminderViewController: UIViewController {
                     alert.addAction(UIAlertAction(title: "Cancel",
                                                   style: .cancel, handler: nil))
                     self.present(alert, animated: true)
-
                 }
-                
 
             } else {
                 CoreDataHelper.shareInstance.updateReminder(withId: (reminder?.id)!, newDate: datePicker.date, newTitle: reminderName.text!, newNotes: notes.text!, updatedRepeat: Int16(repreatIndex))
+//                scheduleLocalNotification(at: datePicker.date.timeIntervalSince1970, reminderID: <#T##UUID#>, withTitle: <#T##String#>, andBody: <#T##String#>, repeatInterval: <#T##Int#>)
                 self.navigationController?.popToRootViewController(animated: true)
             }
         } else {
@@ -147,6 +148,7 @@ class AddEditReminderViewController: UIViewController {
         //        TODO: throw an error if the assigned date is >= today's time and date
 
     }
+    
     func addSubviews() {
         view.addSubview(datePicker)
         view.addSubview(reminderName)
