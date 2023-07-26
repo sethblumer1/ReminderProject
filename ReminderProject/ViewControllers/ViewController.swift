@@ -76,10 +76,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let reminder = reminders[indexPath.row]
         cell.reminderLabel.text = reminder.title
         cell.expirationLabel.text = getStringFromDate(reminderDate: reminder.date!)
-        if reminders[indexPath.row].date! < date {
-            cell.expirationLabel.textColor = .red
-        } else {
+        if reminders[indexPath.row].date! > date {
             cell.expirationLabel.textColor = .label
+        } else {
+            cell.expirationLabel.textColor = .red
         }
         //"1/1/23 4:45 PM"// reminder.date.da
         return cell

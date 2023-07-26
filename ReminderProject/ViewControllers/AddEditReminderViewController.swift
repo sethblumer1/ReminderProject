@@ -12,7 +12,8 @@ import CoreData
 import UserNotifications
 
 class AddEditReminderViewController: UIViewController {
-
+    
+    var activeTextInput: UIView?
     var reminder: ReminderEntity?
     var repreatIndex = 0
     let date = Date()
@@ -43,6 +44,7 @@ class AddEditReminderViewController: UIViewController {
         let reminderName = UITextField()
         reminderName.placeholder = "Reminder Name"
         reminderName.layer.cornerRadius = 8.0
+        reminderName.returnKeyType = .done
         reminderName.backgroundColor = .secondarySystemBackground
         reminderName.layer.masksToBounds = true
         let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: reminderName.frame.height)) // left padding to the textfield
@@ -55,6 +57,7 @@ class AddEditReminderViewController: UIViewController {
         notes.layer.masksToBounds = true
         notes.text = "Notes: "//.placeholder = "Notes:"
         notes.layer.cornerRadius = 8.0
+        notes.returnKeyType = .done
         notes.backgroundColor = .secondarySystemBackground
         return notes
     }()
@@ -70,12 +73,21 @@ class AddEditReminderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
+        self.dismissKeyboard()
+        notes.delegate = self
+        reminderName.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         view.backgroundColor = .systemBackground
         saveButton.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
         repeatPicker.delegate = self
         repeatPicker.dataSource = self
         repeatPicker.selectRow(repreatIndex, inComponent: 0, animated: false)
         // Do any additional setup after loading the view.
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -157,6 +169,61 @@ class AddEditReminderViewController: UIViewController {
         view.addSubview(repeatPicker)
         view.addSubview(repeatLabel)
     }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        if let userInfo = notification.userInfo,
+           let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            
+            let intersection = view.frame.intersection(keyboardFrame)
+            let keyboardHeight = intersection.height
+            
+            if let activeTextInput = activeTextInput {
+                let maxY = activeTextInput.frame.maxY
+                let distanceToMove = maxY - (view.frame.height - keyboardHeight)
+                if distanceToMove > 0 {
+                    if let userInfo = notification.userInfo,
+                       let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+
+                        let intersection = view.frame.intersection(keyboardFrame)
+                        view.frame.origin.y = -intersection.height
+                    }
+                }
+            }
+        }
+    }
+    @objc func keyboardWillHide(notification: Notification) {
+        view.frame.origin.y = 0
+        }
+                                               
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            // If the return key (or enter key) is pressed, hide the keyboard
+            notes.resignFirstResponder()
+            reminderName.resignFirstResponder()
+            return false // Return false to prevent adding a newline character to the text view
+        }
+        return true
+
+    }
+}
+extension AddEditReminderViewController: UITextFieldDelegate {
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeTextInput = textField
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        activeTextInput = nil
+    }
+}
+extension AddEditReminderViewController: UITextViewDelegate {
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        activeTextInput = textView
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        activeTextInput = nil
+    }
 }
 extension AddEditReminderViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -196,3 +263,16 @@ extension AddEditReminderViewController: UIPickerViewDelegate, UIPickerViewDataS
          */
     }
 }
+
+
+extension UIViewController {
+        func dismissKeyboard() {
+            let tap: UITapGestureRecognizer = UITapGestureRecognizer( target:   self,
+                                                                      action: #selector(UIViewController.dismissKeyboardTouchOutside))
+            tap.cancelsTouchesInView = false
+            view.addGestureRecognizer(tap)
+        }
+        @objc private func dismissKeyboardTouchOutside() {
+            view.endEditing(true)
+        }
+    }
