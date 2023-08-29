@@ -14,20 +14,33 @@ class ViewController: UIViewController {
     @IBOutlet weak var reminderTableView: UITableView!
     
     var reminders: [ReminderEntity] = []
+    var hostedReminders: [Reminder] = []
     let date = Date()
     let defaults = UserDefaults.standard
+    
+    struct Reminder: Codable {
+        let date: String
+        let hoursOffset: String
+        let notes: String
+        let isRepeat: String
+        let id: String
+        let phoneNum: String
+        let title: String
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Check user default for phone number here
-        defaults.removeObject(forKey: "phoneNum")
+//        defaults.removeObject(forKey: "phoneNum")
         //    TODO: uncomment below
+       
         checkPhoneNumber()
-//        print("good morning")
         getReminders()
+        print(hostedReminders)
         reminderTableView.delegate = self
         reminderTableView.dataSource = self
         reminderTableView.reloadData()
+        print(defaults.string(forKey: "versionType")!)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: NSNotification.Name("ReloadTable"), object: nil)
     }
     
@@ -40,13 +53,40 @@ class ViewController: UIViewController {
     }
     
     func getReminders() {
-        reminders = CoreDataHelper.shareInstance.fetchReminders()
+        let versionType = defaults.string(forKey: "versionType")!
+
+        if (versionType == "Local") {
+            reminders = CoreDataHelper.shareInstance.fetchReminders()
+        } else {
+            getRemindersHosted(urlString: "https://3s5hv467o8.execute-api.us-east-1.amazonaws.com/reminders") { result in
+                switch result {
+                case .success(let data):
+                    do {
+                        let decoder = JSONDecoder()
+                        let fetchedReminders = try decoder.decode([Reminder].self, from: data)
+//                        print(fetchedReminders)
+                        self.hostedReminders = fetchedReminders
+                    } catch {
+                        print("Error decoding JSON: \(error)")
+                    }
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+            }
+        }
+        
     }
     
     func getStringFromDate(reminderDate: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, h:mm a"
         return dateFormatter.string(from: reminderDate)
+    }
+    
+    func getDateFromString(dateString: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, h:mm a"
+        return dateFormatter.date(from: dateString)!
     }
     
     func checkPhoneNumber() {
@@ -73,20 +113,46 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reminderCell", for: indexPath) as! RemindersTableViewCell
 
-        let reminder = reminders[indexPath.row]
-        cell.reminderLabel.text = reminder.title
-        cell.expirationLabel.text = getStringFromDate(reminderDate: reminder.date!)
-        if reminders[indexPath.row].date! > date {
-            cell.expirationLabel.textColor = .label
-        } else {
-            cell.expirationLabel.textColor = .red
-        }
-        //"1/1/23 4:45 PM"// reminder.date.da
-        return cell
-    }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("\(indexPath.row)")
+        let versionType = defaults.string(forKey: "versionType")!
         
+        print(hostedReminders)
+        
+        if (versionType == "Local") {
+            let reminder = reminders[indexPath.row]
+            cell.reminderLabel.text = reminder.title
+            cell.expirationLabel.text = getStringFromDate(reminderDate: reminder.date!)
+            if reminders[indexPath.row].date! > date {
+                cell.expirationLabel.textColor = .label
+            } else {
+                cell.expirationLabel.textColor = .red
+            }
+
+        } else {
+            let reminder = hostedReminders[indexPath.row]
+            cell.reminderLabel.text = reminder.title
+            cell.expirationLabel.text = reminder.date
+            if getDateFromString(dateString: hostedReminders[indexPath.row].date) > date {
+                cell.expirationLabel.textColor = .label
+            } else {
+                cell.expirationLabel.textColor = .red
+            }
+        }
+        
+        return cell
+
+//        let reminder = reminders[indexPath.row]
+//        cell.reminderLabel.text = reminder.title
+//        cell.expirationLabel.text = getStringFromDate(reminderDate: reminder.date!)
+//        if reminders[indexPath.row].date! > date {
+//            cell.expirationLabel.textColor = .label
+//        } else {
+//            cell.expirationLabel.textColor = .red
+//        }
+//
+//        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let reminder = reminders[indexPath.row]
         
         let editVC = AddEditReminderViewController()
@@ -97,6 +163,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         editVC.repreatIndex = Int(reminder.isRepeat)
         navigationController?.pushViewController(editVC, animated: true)
     }
+    
     //TODO: Fix this top fit our project
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let popUpVC = AddEditReminderViewController()

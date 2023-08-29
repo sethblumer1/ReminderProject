@@ -127,7 +127,7 @@ class AddEditReminderViewController: UIViewController {
                     self.dismiss(animated: true)
                     
                     // Add reminder to DB
-                    addReminder(reminderDate: datePicker.date,
+                    addReminderHosted(reminderDate: datePicker.date,
                                 reminderTitle: reminderName.text!,
                                 reminderNotes: notes.text!,
                                 isRepeat: -1)

@@ -35,7 +35,7 @@ func getStringFromDate(reminderDate: Date) -> String {
     return dateFormatter.string(from: reminderDate)
 }
 
-func addReminder(reminderDate: Date, reminderTitle: String, reminderNotes: String, isRepeat: Int) {
+func addReminderHosted(reminderDate: Date, reminderTitle: String, reminderNotes: String, isRepeat: Int) {
     var minutesOffset: Int { return TimeZone.current.secondsFromGMT() }
     let hoursOffset = minutesOffset / 3600 * -1
     
@@ -76,3 +76,32 @@ func addReminder(reminderDate: Date, reminderTitle: String, reminderNotes: Strin
 
     task.resume()
 }
+
+func getRemindersHosted(urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
+    guard let url = URL(string: urlString) else {
+        let error = NSError(domain: "Invalid URL", code: 0, userInfo: nil)
+        completion(.failure(error))
+        return
+    }
+    
+    let request = URLRequest(url: url)
+    let session = URLSession.shared
+    
+    let task = session.dataTask(with: request) { data, response, error in
+        if let error = error {
+            completion(.failure(error))
+            return
+        }
+        
+        guard let data = data else {
+            let error = NSError(domain: "No data received", code: 0, userInfo: nil)
+            completion(.failure(error))
+            return
+        }
+        
+        completion(.success(data))
+    }
+    
+    task.resume()
+}
+
