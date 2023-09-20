@@ -9,7 +9,7 @@ import Foundation
 
 let URI = "https://3s5hv467o8.execute-api.us-east-1.amazonaws.com/reminders"
 
-//struct ReminderModel: Codable {
+// struct ReminderModel: Codable {
 //    var id: String
 //    var userPhoneNumber: String
 //    var reminderDate: String
@@ -35,18 +35,19 @@ func getStringFromDate(reminderDate: Date) -> String {
     return dateFormatter.string(from: reminderDate)
 }
 
-func addReminderHosted(reminderDate: Date, reminderTitle: String, reminderNotes: String, isRepeat: Int) {
+func addReminderHosted(id: String, reminderDate: Date, reminderTitle: String, reminderNotes: String, isRepeat: Int) {
     var minutesOffset: Int { return TimeZone.current.secondsFromGMT() }
     let hoursOffset = minutesOffset / 3600 * -1
     
     // Create new reminer dictionary
-    let reminderDict: JSONDictionary = ["id": UUID().uuidString,
-                                       "phoneNum": "2037247233",
+    let reminderDict: JSONDictionary = ["id": id,
+                                       "phoneNum": "12037247233",
                                        "date": getStringFromDate(reminderDate: reminderDate),
                                        "title": reminderTitle,
                                        "notes": reminderNotes,
                                        "isRepeat": String(isRepeat),
-                                       "hoursOffset": String(hoursOffset)]
+                                       "hoursOffset": String(hoursOffset),
+                                       "textSent": false]
     
     print(reminderDict)
     
@@ -77,6 +78,24 @@ func addReminderHosted(reminderDate: Date, reminderTitle: String, reminderNotes:
     task.resume()
 }
 
+func deleteRemindersHosted(id: String) {
+    var URIString = URI + "/" + id
+    print("URI String \(URIString)")
+    var request = URLRequest(url: URL(string: URIString)!,timeoutInterval: 30)
+    request.httpMethod = "DELETE"
+
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+      guard let data = data else {
+        print(String(describing: error))
+        return
+      }
+      print(String(data: data, encoding: .utf8)!)
+    }
+
+    task.resume()
+}
+
+
 func getRemindersHosted(urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
     guard let url = URL(string: urlString) else {
         let error = NSError(domain: "Invalid URL", code: 0, userInfo: nil)
@@ -104,4 +123,3 @@ func getRemindersHosted(urlString: String, completion: @escaping (Result<Data, E
     
     task.resume()
 }
-

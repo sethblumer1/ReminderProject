@@ -33,14 +33,15 @@ class ViewController: UIViewController {
         // Check user default for phone number here
 //        defaults.removeObject(forKey: "phoneNum")
         //    TODO: uncomment below
-       
+        let localData = defaults.string(forKey: "versionType")
+        print("local data: \(localData)")
         checkPhoneNumber()
         getReminders()
-        print(hostedReminders)
+//        print(hostedReminders)
         reminderTableView.delegate = self
         reminderTableView.dataSource = self
         reminderTableView.reloadData()
-        print(defaults.string(forKey: "versionType")!)
+//        print(defaults.string(forKey: "versionType")!)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: NSNotification.Name("ReloadTable"), object: nil)
     }
     
@@ -53,27 +54,28 @@ class ViewController: UIViewController {
     }
     
     func getReminders() {
-        let versionType = defaults.string(forKey: "versionType")!
-
-        if (versionType == "Local") {
-            reminders = CoreDataHelper.shareInstance.fetchReminders()
-        } else {
-            getRemindersHosted(urlString: "https://3s5hv467o8.execute-api.us-east-1.amazonaws.com/reminders") { result in
-                switch result {
-                case .success(let data):
-                    do {
-                        let decoder = JSONDecoder()
-                        let fetchedReminders = try decoder.decode([Reminder].self, from: data)
-//                        print(fetchedReminders)
-                        self.hostedReminders = fetchedReminders
-                    } catch {
-                        print("Error decoding JSON: \(error)")
-                    }
-                case .failure(let error):
-                    print("Error: \(error)")
-                }
-            }
-        }
+        reminders = CoreDataHelper.shareInstance.fetchReminders()
+        
+//        let versionType = defaults.string(forKey: "versionType")!
+//
+//        if (versionType == "Local") {
+//            reminders = CoreDataHelper.shareInstance.fetchReminders()
+//        } else {
+//            getRemindersHosted(urlString: "https://3s5hv467o8.execute-api.us-east-1.amazonaws.com/reminders") { result in
+//                switch result {
+//                case .success(let data):
+//                    do {
+//                        let decoder = JSONDecoder()
+//                        let fetchedReminders = try decoder.decode([Reminder].self, from: data)
+//                        self.hostedReminders = fetchedReminders
+//                    } catch {
+//                        print("Error decoding JSON: \(error)")
+//                    }
+//                case .failure(let error):
+//                    print("Error: \(error)")
+//                }
+//            }
+//        }
         
     }
     
@@ -117,26 +119,26 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         print(hostedReminders)
         
-        if (versionType == "Local") {
-            let reminder = reminders[indexPath.row]
-            cell.reminderLabel.text = reminder.title
-            cell.expirationLabel.text = getStringFromDate(reminderDate: reminder.date!)
-            if reminders[indexPath.row].date! > date {
-                cell.expirationLabel.textColor = .label
-            } else {
-                cell.expirationLabel.textColor = .red
-            }
-
+//        if (versionType == "Local") {
+        let reminder = reminders[indexPath.row]
+        cell.reminderLabel.text = reminder.title
+        cell.expirationLabel.text = getStringFromDate(reminderDate: reminder.date!)
+        if reminders[indexPath.row].date! > date {
+            cell.expirationLabel.textColor = .label
         } else {
-            let reminder = hostedReminders[indexPath.row]
-            cell.reminderLabel.text = reminder.title
-            cell.expirationLabel.text = reminder.date
-            if getDateFromString(dateString: hostedReminders[indexPath.row].date) > date {
-                cell.expirationLabel.textColor = .label
-            } else {
-                cell.expirationLabel.textColor = .red
-            }
+            cell.expirationLabel.textColor = .red
         }
+//
+//        } else {
+//            let reminder = hostedReminders[indexPath.row]
+//            cell.reminderLabel.text = reminder.title
+//            cell.expirationLabel.text = reminder.date
+//            if getDateFromString(dateString: hostedReminders[indexPath.row].date) > date {
+//                cell.expirationLabel.textColor = .label
+//            } else {
+//                cell.expirationLabel.textColor = .red
+//            }
+//        }
         
         return cell
 

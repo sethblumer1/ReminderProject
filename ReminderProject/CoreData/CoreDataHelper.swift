@@ -15,8 +15,10 @@ class CoreDataHelper {
     
     static let shareInstance = CoreDataHelper()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let defaults = UserDefaults.standard
     
     //func for creating and storing reminder ET in core data
+    // Adding ID as a param so IDs in core data and AWS DB match up
     func createReminder(date: Date, title: String, notes: String, isRepeat: Int16) {
         let newReminder = ReminderEntity(context: context)
         newReminder.date =  date
@@ -24,7 +26,20 @@ class CoreDataHelper {
         newReminder.notes = notes
         newReminder.isRepeat = isRepeat
         newReminder.id = UUID()
-        scheduleLocalNotification(at: newReminder.date!.timeIntervalSince1970, reminderID: newReminder.id!, withTitle: newReminder.title!, andBody: newReminder.notes!, repeatInterval: Int(newReminder.isRepeat))
+        
+        let localData = defaults.string(forKey: "versionType")
+        print("local data: \(localData!)")
+        if (localData == "Local") {
+            scheduleLocalNotification(at: newReminder.date!.timeIntervalSince1970, reminderID: newReminder.id!, withTitle: newReminder.title!, andBody: newReminder.notes!, repeatInterval: Int(newReminder.isRepeat))
+        } else {
+            addReminderHosted(id: newReminder.id!.uuidString,
+                        reminderDate: date,
+                        reminderTitle: title,
+                        reminderNotes: notes,
+                        isRepeat: -1)
+        }
+     
+//        scheduleLocalNotification(at: newReminder.date!.timeIntervalSince1970, reminderID: newReminder.id!, withTitle: newReminder.title!, andBody: newReminder.notes!, repeatInterval: Int(newReminder.isRepeat))
         do {
             try context.save()
         } catch {
@@ -41,23 +56,42 @@ class CoreDataHelper {
         reminder.title = newTitle
         reminder.notes = newNotes
         reminder.isRepeat = updatedRepeat
-        editScheduledNotification(at: reminder.date!.timeIntervalSince1970, reminderID: reminder.id!, withTitle: reminder.title!, andBody: reminder.notes!, repeatInterval: Int(reminder.isRepeat))
+        
+        let localData = defaults.string(forKey: "versionType")
+        
+        if (localData == "Local")
+        {
+          editScheduledNotification(at: reminder.date!.timeIntervalSince1970, reminderID: reminder.id!, withTitle: reminder.title!, andBody: reminder.notes!, repeatInterval: Int(reminder.isRepeat))
+
+        }
+//        editScheduledNotification(at: reminder.date!.timeIntervalSince1970, reminderID: reminder.id!, withTitle: reminder.title!, andBody: reminder.notes!, repeatInterval: Int(reminder.isRepeat))
         do {
             try context.save()
         } catch {
             print("error updating \(reminder)")
         }
     }
+    
     //func to delete reminder from core data
     func deleteReminder(reminder: ReminderEntity) {
         context.delete(reminder)
-        deleteScheduledNotification(reminderID: reminder.id!)
+        
+        let localData = defaults.string(forKey: "versionType")
+        
+        if (localData == "Local") {
+            deleteScheduledNotification(reminderID: reminder.id!)
+        } else {
+            print(reminder.id!.uuidString)
+            deleteRemindersHosted(id: reminder.id!.uuidString)
+        }
+        
         do {
             try context.save()
         } catch {
             print("error deleting \(reminder)")
         }
     }
+    
     //func to assist the function for updating a Reminder by ID
     func fetchReminderById(_ id: UUID) -> ReminderEntity? {
         let fetchRequest: NSFetchRequest<ReminderEntity> = ReminderEntity.fetchRequest()

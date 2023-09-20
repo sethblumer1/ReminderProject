@@ -125,12 +125,6 @@ class AddEditReminderViewController: UIViewController {
                     CoreDataHelper.shareInstance.createReminder(date: datePicker.date, title: reminderName.text!, notes: notes.text!, isRepeat: Int16(repreatIndex))
 //                    scheduleLocalNotification(at: datePicker.date.timeIntervalSince1970, reminderID: <#T##UUID#>, withTitle: <#T##String#>, andBody: <#T##String#>, repeatInterval: repreatIndex)
                     self.dismiss(animated: true)
-                    
-                    // Add reminder to DB
-                    addReminderHosted(reminderDate: datePicker.date,
-                                reminderTitle: reminderName.text!,
-                                reminderNotes: notes.text!,
-                                isRepeat: -1)
                 } else {
                     // throw alert
                     let alert = UIAlertController(title: "Date error",
