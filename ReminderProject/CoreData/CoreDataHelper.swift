@@ -38,8 +38,6 @@ class CoreDataHelper {
                         reminderNotes: notes,
                         isRepeat: -1)
         }
-     
-//        scheduleLocalNotification(at: newReminder.date!.timeIntervalSince1970, reminderID: newReminder.id!, withTitle: newReminder.title!, andBody: newReminder.notes!, repeatInterval: Int(newReminder.isRepeat))
         do {
             try context.save()
         } catch {
@@ -62,9 +60,7 @@ class CoreDataHelper {
         if (localData == "Local")
         {
           editScheduledNotification(at: reminder.date!.timeIntervalSince1970, reminderID: reminder.id!, withTitle: reminder.title!, andBody: reminder.notes!, repeatInterval: Int(reminder.isRepeat))
-
         }
-//        editScheduledNotification(at: reminder.date!.timeIntervalSince1970, reminderID: reminder.id!, withTitle: reminder.title!, andBody: reminder.notes!, repeatInterval: Int(reminder.isRepeat))
         do {
             try context.save()
         } catch {
@@ -118,6 +114,42 @@ class CoreDataHelper {
             print("error fetching \(error)")
         }
         return reminder
+    }
+    
+    func convertData(to versionType: String) {
+        let localData = defaults.string(forKey: "versionType")
+
+        if versionType == "Local" && localData == "Hosted" {
+            // Convert from Hosted to Local
+            let hostedReminders = fetchReminders()
+
+            for reminder in hostedReminders {
+                scheduleLocalNotification(at: reminder.date!.timeIntervalSince1970, reminderID: reminder.id!, withTitle: reminder.title!, andBody: reminder.notes!, repeatInterval: Int(reminder.isRepeat))
+            }
+
+           // Delete all hosted reminders
+            for reminder in hostedReminders {
+                deleteRemindersHosted(id: reminder.id!.uuidString)
+            }
+        } else if versionType == "Hosted" && localData == "Local" {
+            // Convert from Local to Hosted
+            let localReminders = fetchReminders()
+
+           for reminder in localReminders {
+                addReminderHosted(id: reminder.id!.uuidString,
+                                  reminderDate: reminder.date!,
+                                  reminderTitle: reminder.title!,
+                                  reminderNotes: reminder.notes!,
+                                  isRepeat: Int(reminder.isRepeat))
+            }
+            
+           // Delete all scheduled local notifications
+            for reminder in localReminders {
+                deleteScheduledNotification(reminderID: reminder.id!)
+            }
+        }
+       // Update UserDefaults with the new versionType
+        defaults.set(versionType, forKey: "versionType")
     }
     
     func scheduleLocalNotification(at timestamp: TimeInterval, reminderID: UUID, withTitle title: String, andBody body: String, repeatInterval: Int) {

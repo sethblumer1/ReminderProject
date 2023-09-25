@@ -40,10 +40,14 @@ class AddPhoneNumViewController: UIViewController, UITextFieldDelegate {
         defaults.set(phoneNumEntry.text!, forKey: "phoneNum")
         defaults.set(versionType, forKey: "versionType")
         
-//        defaults.set(versionType)
-
+        //TODO: if versionType == "Hosted" && phoneNumEntry.text is not a valid phone number
+        //trigger alert    else poptoroot
+        //        defaults.set(versionType)
+        
         
         self.navigationController?.popToRootViewController(animated: true)
     }
-    
+    //TODO: Check valid phone number by sending text
+    //TODO: Func to Check to see if number is actually phone number
+
 }
