@@ -37,11 +37,12 @@ class SettingsViewController: UIViewController {
         print("local data: \(localData!)")
         
     }
-// MARK: Settings needed:
+
+    // MARK: Settings needed:
     /*
-     set/change phone number
-     wipe all reminders
-     switch from hosted to 
+     set/change phone number --- verify number func
+     switch from hosted to local check
+     wipe all reminders ---
      notification preferences
      */
 

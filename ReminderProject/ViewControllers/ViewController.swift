@@ -44,13 +44,15 @@ class ViewController: UIViewController {
 //        print(defaults.string(forKey: "versionType")!)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: NSNotification.Name("ReloadTable"), object: nil)
     }
-    
+    override func viewWillAppear (_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getReminders()
+        reminderTableView.reloadData()
+    }
     @objc func reloadTable() {
         getReminders()
-//        print(defaults.string(forKey: "versionType"))
-//        let currentVersion = defaults.string(forKey: "versionType")!
-//        print(currentVersion)
-        self.reminderTableView.reloadData()
+//        print("closed page")
+        reminderTableView.reloadData()
     }
     
     func getReminders() {
@@ -115,11 +117,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reminderCell", for: indexPath) as! RemindersTableViewCell
 
-        let versionType = defaults.string(forKey: "versionType")!
-        
+        if defaults.string(forKey: "versionType") != nil {
+            let versionType = defaults.string(forKey: "versionType")!
+        }
+
         print(hostedReminders)
         
-//        if (versionType == "Local") {
         let reminder = reminders[indexPath.row]
         cell.reminderLabel.text = reminder.title
         cell.expirationLabel.text = getStringFromDate(reminderDate: reminder.date!)
@@ -128,30 +131,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             cell.expirationLabel.textColor = .red
         }
-//
-//        } else {
-//            let reminder = hostedReminders[indexPath.row]
-//            cell.reminderLabel.text = reminder.title
-//            cell.expirationLabel.text = reminder.date
-//            if getDateFromString(dateString: hostedReminders[indexPath.row].date) > date {
-//                cell.expirationLabel.textColor = .label
-//            } else {
-//                cell.expirationLabel.textColor = .red
-//            }
-//        }
-        
         return cell
-
-//        let reminder = reminders[indexPath.row]
-//        cell.reminderLabel.text = reminder.title
-//        cell.expirationLabel.text = getStringFromDate(reminderDate: reminder.date!)
-//        if reminders[indexPath.row].date! > date {
-//            cell.expirationLabel.textColor = .label
-//        } else {
-//            cell.expirationLabel.textColor = .red
-//        }
-//
-//        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
